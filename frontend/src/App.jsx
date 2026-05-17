@@ -1563,6 +1563,8 @@ function AdminDashboard({patients,setPatients,ehrRecords,setEhrRecords,approvals
 ══════════════════════════════════════════════════════════════════════════════ */
 export default function App(){
   const[mode,setMode]=useState("launcher");
+const [adminUnlocked, setAdminUnlocked] = useState(false);
+const [adminInput, setAdminInput] = useState("");
 
   /* ── SHARED STATE ──────────────────────────────────────────────────────────── */
   const[patients,setPatients]=useState([
@@ -1721,7 +1723,47 @@ export default function App(){
     {mode==="patient"&&<PatientApp patients={patients} ehrRecords={ehrRecords} approvals={approvals} recordRequests={recordRequests} onRecordRequest={onRecordRequest}/>}
     {mode==="nurse"&&<NursingStation nurse={activeNurse} patients={patients} setPatients={setPatients} ehrRecords={ehrRecords} setEhrRecords={setEhrRecords} approvals={approvals} setApprovals={setApprovals} doctors={doctors}/>}
     {mode==="doctor"&&<DoctorPortal patients={patients} ehrRecords={ehrRecords} approvals={approvals} ai={ai} cfg={cfg} onSaveConsultation={onSaveConsultation}/>}
-    {mode==="admin"&&<AdminDashboard patients={patients} setPatients={setPatients} ehrRecords={ehrRecords} setEhrRecords={setEhrRecords} approvals={approvals} setApprovals={setApprovals} nurses={nurses} setNurses={setNurses} doctors={doctors} setDoctors={setDoctors} ai={ai} cfg={cfg} onAiCfgChange={setCfg} onForceStage={onForceStage} recordRequests={recordRequests} setRecordRequests={setRecordRequests} newRegs={newRegs} simSpeed={simSpeed} onSimSpeed={setSimSpeed} newCase={newCase} onShadowVerdict={onShadowVerdict} onGenCase={()=>setNewCase(genCaseFn())}/>}
+  {mode === "admin" && !adminUnlocked && (
+  <div style={{minHeight:"100vh",background:"#04080F",display:"flex",alignItems:"center",justifyContent:"center"}}>
+    <div style={{background:"#0C1622",border:"1px solid rgba(0,200,168,0.18)",borderRadius:14,padding:"2rem",width:360,textAlign:"center"}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:"1.5rem",fontWeight:700,color:"#E0EEF8",marginBottom:4}}>remote<span style={{color:"#00C8A8"}}>GP</span></div>
+      <div style={{fontSize:12,color:"#486070",fontFamily:"'JetBrains Mono',monospace",letterSpacing:"1.5px",textTransform:"uppercase",marginBottom:24}}>Admin Access</div>
+      <input
+        type="password"
+        placeholder="Enter admin password"
+        value={adminInput}
+        onChange={e => setAdminInput(e.target.value)}
+        onKeyDown={e => {
+          if(e.key === "Enter"){
+            if(adminInput === import.meta.env.VITE_ADMIN_PASSWORD){
+              setAdminUnlocked(true);
+            } else {
+              alert("Incorrect password");
+              setAdminInput("");
+            }
+          }
+        }}
+        style={{width:"100%",background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:8,padding:"10px 14px",fontSize:13,color:"#E0EEF8",outline:"none",marginBottom:12,fontFamily:"'DM Sans',sans-serif"}}
+      />
+      <button
+        onClick={() => {
+          if(adminInput === import.meta.env.VITE_ADMIN_PASSWORD){
+            setAdminUnlocked(true);
+          } else {
+            alert("Incorrect password");
+            setAdminInput("");
+          }
+        }}
+        style={{width:"100%",background:"#00C8A8",color:"#fff",border:"none",borderRadius:8,padding:"10px",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>
+        Enter Dashboard
+      </button>
+      <div style={{marginTop:16}}>
+        <button onClick={() => setMode("launcher")} style={{background:"transparent",border:"none",color:"#486070",fontSize:12,cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>← Back to launcher</button>
+      </div>
+    </div>
+  </div>
+)}
+{mode === "admin" && adminUnlocked && <AdminDashboard patients={patients} setPatients={setPatients} ehrRecords={ehrRecords} setEhrRecords={setEhrRecords} approvals={approvals} setApprovals={setApprovals} nurses={nurses} setNurses={setNurses} doctors={doctors} setDoctors={setDoctors} ai={ai} cfg={cfg} onAiCfgChange={setCfg} onForceStage={onForceStage} recordRequests={recordRequests} setRecordRequests={setRecordRequests} newRegs={newRegs} simSpeed={simSpeed} onSimSpeed={setSimSpeed} newCase={newCase} onShadowVerdict={onShadowVerdict} onGenCase={()=>setNewCase(genCaseFn())}/>}setPatients={setPatients} ehrRecords={ehrRecords} setEhrRecords={setEhrRecords} approvals={approvals} setApprovals={setApprovals} nurses={nurses} setNurses={setNurses} doctors={doctors} setDoctors={setDoctors} ai={ai} cfg={cfg} onAiCfgChange={setCfg} onForceStage={onForceStage} recordRequests={recordRequests} setRecordRequests={setRecordRequests} newRegs={newRegs} simSpeed={simSpeed} onSimSpeed={setSimSpeed} newCase={newCase} onShadowVerdict={onShadowVerdict} onGenCase={()=>setNewCase(genCaseFn())}/>}
 
     {mode==="register"&&(
       <div style={{minHeight:"100vh",background:T.p0,fontFamily:T.sans}}>
