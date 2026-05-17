@@ -1661,14 +1661,9 @@ const [adminInput, setAdminInput] = useState("");
     {mode==="launcher"&&(
       <div className="lnch" style={{position:"relative"}}>
         <div style={{textAlign:"center"}}>
-          <img src="/logo.png" alt="remoteGP" style={{width:220,marginBottom:8}}/>
+          <img src="/logo.png" alt="remoteGP" style={{width:260,marginBottom:16,borderRadius:20,padding:16,background:"#ffffff"}}/>
           <div className="lnch-sub">Integrated eHealth Platform · AI-Powered Telemedicine</div>
-          <div style={{display:"inline-flex",alignItems:"center",gap:8,marginTop:14,marginBottom:6,padding:"6px 18px",background:"rgba(0,200,168,0.06)",border:"1px solid rgba(0,200,168,0.18)",borderRadius:50}}>
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.25" stroke="#00C8A8" strokeWidth="0.75"/><text x="9" y="13" textAnchor="middle" style={{fontFamily:"'Syne',sans-serif",fontSize:"7px",fontWeight:700,fill:"#00C8A8",letterSpacing:"0.5px"}}>CFS</text></svg>
-            <span style={{fontSize:11,color:T.teal,fontFamily:T.mono,letterSpacing:"1.8px",textTransform:"uppercase"}}>A Product of ClearFlow Systems</span>
-          </div>
         </div>
-
         <div className="lnch-grid">
           {[
             {m:"patient",icon:"🏥",label:"Patient App",desc:"Visit RAH, view vitals, connect to doctor, request records",color:T.teal},
